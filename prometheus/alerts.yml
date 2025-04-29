@@ -1,0 +1,20 @@
+groups:
+- name: solana-balance-alerts
+  rules:
+  - alert: TokenBalanceChanged
+    expr: abs(delta(solana_token_balance[1h])) > 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Token balance changed for {{ $labels.address }}"
+      description: "{{ $labels.symbol }} balance changed from {{ $value }} to {{ $value }}"
+
+  - alert: NoHealthyRPCs
+    expr: solana_tracker_healthy_rpc_count == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "No healthy Solana RPC endpoints available"
+      description: "All RPC endpoints are down for more than 2 minutes"

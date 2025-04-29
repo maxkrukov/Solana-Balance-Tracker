@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - 'alerts.yml'
+
+scrape_configs:
+  - job_name: 'solana-tracker'
+    metrics_path: '/metrics'
+    params:
+      address: ['GTsL1ZJqHthtdDLSKJt4D6x4a52NoHEG7tMtWeg1kCjK']  # Your address here
+    static_configs:
+      - targets: ['solana-tracker:8000']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+      - source_labels: [__param_address]
+        target_label: address
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+#alerting:
+#  alertmanagers:
+#    - static_configs:
+#        - targets: ['alertmanager:9093']
+
