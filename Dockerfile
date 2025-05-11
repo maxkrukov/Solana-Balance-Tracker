@@ -8,11 +8,12 @@ RUN apt install -y \
   python3-httpx \
   python3-pydantic \
   python3-cachetools \
-  python3-prometheus-client
+  python3-prometheus-client \
+  python3-requests
 
 WORKDIR /app
 
-COPY app.py .
+COPY trx_balance_exporter.py .
 
-CMD ["python3", "app.py"]
+CMD ["python3", "trx_balance_exporter.py"]
 
